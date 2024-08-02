@@ -2,29 +2,28 @@
 import { ref, onMounted, defineProps } from 'vue'
 import { type Airline } from '@/types'
 import AirlineService from '@/services/AirlineService'
+import { useRouter } from 'vue-router'
 
 const airline = ref<Airline | null>(null)
-
 const props = defineProps({
-  id: {
-    type: String,
-    required: true
-  },
   airlineId: {
     type: String,
     required: true
   }
 })
+const router = useRouter()
 
 onMounted(() => {
-    console.log('on detail view mounted')
   AirlineService.getAirline(props.airlineId)
     .then(response => {
-
       airline.value = response.data
     })
-    .catch((error) => {
-      console.error('There was an error fetching the event:', error)
+    .catch(error => {
+      if (error.response && error.response.status === 404) {
+        router.push({ name: 'not-found', params: { resource: 'airline' } })
+      } else {
+        console.error('There was an error!', error)
+      }
     })
 })
 </script>
