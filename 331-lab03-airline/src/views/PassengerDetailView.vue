@@ -1,36 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted, defineProps } from 'vue'
-import { type Passenger } from '@/types'
-import PassengerService from '@/services/PassengerService'
-import { useRouter, RouterLink } from 'vue-router'
 
-const passenger = ref<Passenger | null>(null)
-const props = defineProps({
-  id: {
-    type: String,
-    required: true
-  }
-})
-const router = useRouter()
+import { usePassengerStore } from '@/stores/passenger';
+import { storeToRefs } from 'pinia';
 
-onMounted(() => {
-  PassengerService.getPassenger(props.id)
-    .then(response => {
-      if (response.data) {
-        passenger.value = response.data
-      } else {
-        // Handle case where data is empty
-        router.push({ name: 'not-found', params: { resource: 'passenger' } })
-      }
-    })
-    .catch(error => {
-      if (error.response && error.response.status === 404) {
-        router.push({ name: 'not-found', params: { resource: 'passenger' } })
-      } else {
-        console.error('There was an error!', error)
-      }
-    })
-})
+const store = usePassengerStore()
+const { passenger } = storeToRefs(store)
+
 </script>
 
 <template>

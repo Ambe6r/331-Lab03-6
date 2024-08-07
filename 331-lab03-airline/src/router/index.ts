@@ -7,6 +7,8 @@ import EventLayoutView from '@/views/event/LayoutView.vue'
 import AirlineDetailView from '@/views/AirlineDetailView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import nProgress from 'nprogress'
+import PassengerService from '@/services/PassengerService'
+import { usePassengerStore } from '@/stores/passenger'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,6 +27,20 @@ const router = createRouter({
       name: 'event-layout-view',
       component: EventLayoutView,
       props: true,
+      beforeEnter: (to) => {
+        const id = to.params.id as string
+        const passengerStore = usePassengerStore()
+        return PassengerService.getPassenger(id)
+        .then((response) => {
+          passengerStore.setPassenger(response.data)
+        }).catch((error) => {
+          if (error.response && error.response.status === 404) {
+            router.push({ name: 'not-found', params: { resource: 'passenger' } })
+          } else {
+            console.error('There was an error!', error)
+          }
+        })
+      },
       children: [
         {
           path: '',
