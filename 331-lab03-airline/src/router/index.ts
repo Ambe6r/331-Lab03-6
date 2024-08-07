@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import PassengerListView from '@/views/PassengerListView.vue'
-import PassengerDetailView from '@/views/PassengerDetailView.vue'
+import PassengerDetailView from '@/views/event/DetailView.vue'
+import EventRegisterView from '@/views/event/RegisterView.vue'
+import EventEditView from '@/views/event/EditView.vue'
+import EventLayoutView from '@/views/event/LayoutView.vue'
 import AirlineDetailView from '@/views/AirlineDetailView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 
@@ -18,18 +21,60 @@ const router = createRouter({
     },
     {
       path: '/passenger/:id',
-      name: 'passenger-detail-view',
-      component: PassengerDetailView,
+      name: 'event-layout-view',
+      component: EventLayoutView,
       props: true,
       children: [
         {
+          path: '',
+          name: 'passenger-detail-view',
+          component: PassengerDetailView,
+          props: true,
+          //children: [
+            //{
+              //path: 'airline/:airlineId',
+              //name: 'airline-detail-view',
+              //component: AirlineDetailView,
+              //props: true
+            //}
+          //]
+        },
+        {
           path: 'airline/:airlineId',
-          name: 'airline-detail-view',
-          component: AirlineDetailView,
+              name: 'airline-detail-view',
+              component: AirlineDetailView,
+              props: true
+
+        },
+        {
+          path: '/event/:id/register',
+          name: 'event-register-view',
+          component: EventRegisterView,
           props: true
-        }
+        },
+        {
+          path: '/event/:id/edit',
+          name: 'event-edit-view',
+          component: EventEditView,
+          props: true
+        },
       ]
+
     },
+    //{
+      //path: '/passenger/:id',
+      //name: 'passenger-detail-view',
+      //component: PassengerDetailView,
+      //props: true,
+      //children: [
+        //{
+          //path: 'airline/:airlineId',
+          //name: 'airline-detail-view',
+          //component: AirlineDetailView,
+          //props: true
+        //}
+      //]
+    //},
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',

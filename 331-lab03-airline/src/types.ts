@@ -5,7 +5,7 @@ export interface Passenger {
     airline: [Airline]
   }
   
-  export interface Airline {
+export interface Airline {
     _id: number
     name: string
     country: string
@@ -15,4 +15,7 @@ export interface Passenger {
     website: string
     established: string
   }
-  
+
+export interface MessageState {
+  message: string
+}
