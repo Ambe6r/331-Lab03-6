@@ -98,7 +98,14 @@ const router = createRouter({
       component: NotFoundView,
       props: { resource: 'page' }
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { top: 0 }
+    }
+  }
 })
 router.beforeEach(() => {
   nProgress.start()
