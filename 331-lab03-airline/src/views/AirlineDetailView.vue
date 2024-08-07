@@ -6,6 +6,10 @@ import { useRouter } from 'vue-router'
 
 const airline = ref<Airline | null>(null)
 const props = defineProps({
+  id: {
+    type: String,
+    required: true
+  },
   airlineId: {
     type: String,
     required: true

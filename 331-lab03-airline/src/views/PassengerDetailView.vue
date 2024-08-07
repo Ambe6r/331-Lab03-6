@@ -2,7 +2,7 @@
 import { ref, onMounted, defineProps } from 'vue'
 import { type Passenger } from '@/types'
 import PassengerService from '@/services/PassengerService'
-import { useRouter } from 'vue-router'
+import { useRouter, RouterLink } from 'vue-router'
 
 const passenger = ref<Passenger | null>(null)
 const props = defineProps({
@@ -37,8 +37,9 @@ onMounted(() => {
   <div v-if="passenger">
     <h1>{{ passenger.name }}</h1>
     <p>Trips: {{ passenger.trips }}</p>
-    <router-link :to="{ name: 'airline-detail-view', params: { airlineId: passenger.airline[0]._id } }">
+    <RouterLink :to="{ name: 'airline-detail-view', params: { airlineId: passenger.airline[0]._id } }">
       View Airline Details
-    </router-link>
+    </RouterLink>
+    <RouterView />
   </div>
 </template>
